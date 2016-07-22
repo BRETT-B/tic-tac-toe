@@ -17,7 +17,7 @@ function markSquare(square){
 		console.log("Someone Already Won");
 	}
 	//check to see if this square is in either players array...if so, ggodbye
-	else if((player1.indexOf(square.id) == -1) && (player2.indexOf(square.id) == -1)) {
+	else if((player1.indexOf(square.id) == -1) && (player2.indexOf(square.id) == -1)){
 		if(whosTurn == 1){
 			square.innerHTML = 'X';
 			whosTurn = 2;
@@ -51,7 +51,8 @@ function checkWin(currentPlayersSquares, whoJustMarked){
 }
 function gameOver(whoWon, winningCombo){
 	document.getElementById('message');
-	message.innerHTML = "Congrats Player " + whoWon + ", You Won!!" + " Combo was: " + winningCombo.join(", ");
+	message.innerHTML = "Congrats Player " + whoWon + ", You Won!!" + " Combo was: " 
+	+ winningCombo.join(", ");
 	for(i = 0; i < winningCombo.length; i++){
 		document.getElementById(winningCombo[i]).className += ' winner';	
 	}
