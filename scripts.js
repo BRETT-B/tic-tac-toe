@@ -1,14 +1,43 @@
+// N size grid
 var whosTurn = 1; //start with player 1 turn
-var winners = [
-	["a1", "a2", "a3"],
-	["b1", "b2", "b3"],
-	["c1", "c2", "c3"],
-	["a1", "b2", "c3"],
-	["a3", "b2", "c1"],
-	["a1", "b1", "c1"],
-	["a2", "b2", "c2"],
-	["a3", "b3", "c3"]
-];
+// 1. Build a winners array.
+
+var alph = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
+var winners = [];
+var diag1 = [];
+var diag2 = [];
+var gridSize = 5; //var gridSize is the 'n'
+// We want A0,A1, A2, A3,...A'n'
+// B0, B1, B2, B3...B'n'
+for (var i = 0; i<gridSize; i++){
+	diag1.push(alph[i] + (gridSize - i));//diagonal 1
+	diag2.push(alph[i] + i);//diagonal 2
+	var winnersInsideH = [];//verticle array
+	var winnersInsideV = [];//horizontal array
+	for (var j = 0; j<gridSize; j++){
+		// Setup horizontal winner
+		winnersInsideH.push(alph[j] + i);
+		// Setup verticle winner
+		winnersInsideV.push(alph[i] + j);
+	}
+	winners.push(winnersInsideH);
+	winners.push(winnersInsideV);
+}
+winners.push(diag1);
+winners.push(diag2);
+
+// JS to build board
+var htmlForTheBoard;
+var boxWidth = (100/gridSize) - (gridSize - 1);
+for (var i = 0; i<gridSize; i++){
+	htmlForTheBoard += '<div class="board-row' + i + ' board-row">';
+		for (var j=0; j<gridSize; j++){
+			htmlForTheBoard += '<button id="' + alph[i] + j + '" class="box" style="width:'+boxWidth+'%" onClick="markSquare(this)">-</button>';
+		}
+	htmlForTheBoard += '</div>';
+}
+document.getElementsByClassName('game-wrapper')[0].innerHTML = htmlForTheBoard;
+
 var player1 = [];//Arrays to hold the players moves
 var player2 = [];
 var someoneWon = false;
@@ -16,7 +45,7 @@ function markSquare(square){
 	if(someoneWon){
 		console.log("Someone Already Won");
 	}
-	//check to see if this square is in either players array...if so, ggodbye
+	//check to see if this square is in either players array...if so, goodbye
 	else if((player1.indexOf(square.id) == -1) && (player2.indexOf(square.id) == -1)){
 		if(whosTurn == 1){
 			square.innerHTML = 'X';
@@ -43,7 +72,7 @@ function checkWin(currentPlayersSquares, whoJustMarked){
 			if(currentPlayersSquares.indexOf(winners[i][j]) > -1){
 				rowCount++;
 			}
-			if(rowCount == 3){
+			if(rowCount === gridSize){
 				gameOver(whoJustMarked, winners[i]);
 			}
 		}
