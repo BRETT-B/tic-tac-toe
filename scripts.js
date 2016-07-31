@@ -41,6 +41,11 @@ document.getElementsByClassName('game-wrapper')[0].innerHTML = htmlForTheBoard;
 var player1 = [];//Arrays to hold the players moves
 var player2 = [];
 var someoneWon = false;
+
+$('.box').click(function(){
+	markSquare(this);
+})
+
 function markSquare(square){
 	if(someoneWon){
 		console.log("Someone Already Won");
